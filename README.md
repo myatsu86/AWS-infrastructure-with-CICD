@@ -15,3 +15,23 @@ Architecture Overview
 - Route Tables:
   - Public RT: IGW route (0.0.0.0/0)
   - Private RTs (2): NAT Gateway route for outbound internet
+
+# AWS Network Terraform Module
+
+This module creates a **multi-tier AWS network** with the following:
+- 1 VPC
+- 2 Public Subnets (across 2 AZs)
+- 2 Private Subnets (across 2 AZs)
+- 1 Internet Gateway (IGW)
+- 1 NAT Gateway (cost-aware: only one NAT in first public subnet)
+- Route tables for public & private subnets
+
+## Usage
+```hcl
+module "network" {
+  source            = "./modules/network"
+  vpc_cidr          = "10.0.0.0/16"
+  public_subnets    = ["10.0.1.0/24", "10.0.2.0/24"]
+  private_subnets   = ["10.0.101.0/24", "10.0.102.0/24"]
+  availability_zones = ["us-east-1a", "us-east-1b"]
+}
