@@ -35,3 +35,18 @@ module "network" {
   private_subnets   = ["10.0.101.0/24", "10.0.102.0/24"]
   availability_zones = ["us-east-1a", "us-east-1b"]
 }
+
+# Terraform Backend Module
+
+This module creates:
+- **S3 bucket** for storing Terraform state
+- **DynamoDB table (optional)** for state locking
+
+## Usage
+```hcl
+module "backend" {
+  source         = "./modules/backend"
+  project_name   = "multi-tier-aws"
+  environment    = "dev"
+  enable_locking = true
+}
